@@ -1,6 +1,8 @@
 #include <QCoreApplication>
 #include <QCommandLineParser>
 
+#include "database.h"
+
 int main(int argc, char *argv[])
 {
     QCoreApplication app(argc, argv);
@@ -25,7 +27,25 @@ int main(int argc, char *argv[])
 
     parser.process(app);
 
+    Database myDB("/home/adam/databases/hashes.db");
 
+    QTextStream output(stdout);
+
+    if (myDB.findHash("eed675abe602b0990ee3d4dcc0d72b14")) {
+        output << "eed675abe602b0990ee3d4dcc0d72b14 in db \n";
+        output.flush();
+    } else {
+        output << "eed675abe602b0990ee3d4dcc0d72b14 not in db \n";
+        output.flush();
+    }
+
+    if (myDB.findHash("eed675abe602b0990ee3d4dcc0d72b18")) {
+        output << "eed675abe602b0990ee3d4dcc0d72b18 in db \n";
+        output.flush();
+    } else {
+        output << "eed675abe602b0990ee3d4dcc0d72b18 not in db \n";
+        output.flush();
+    }
 
     return app.exec();
 }
