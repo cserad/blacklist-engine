@@ -1,8 +1,8 @@
 #include "database.h"
 
-Database::Database(const QString &path)
+Database::Database()
 {
-    initDatabase(path);
+
 }
 
 bool Database::findHash(const QString &hash)
@@ -24,6 +24,6 @@ void Database::initDatabase(const QString &path)
     if (!db.open()) {
         qDebug() << "Error: cannot connect to database";
     } else {
-        qDebug() << "ok";
+        qDebug() << "Connected to database.\n";
     }
 }

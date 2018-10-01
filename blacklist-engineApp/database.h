@@ -6,11 +6,9 @@
 class Database
 {
 public:
-    Database(const QString &path);
-    bool findHash(const QString &hash);
-
-private:
+    Database();
     void initDatabase(const QString &path);
+    bool findHash(const QString &hash);
 
 private:
     QSqlDatabase db;
