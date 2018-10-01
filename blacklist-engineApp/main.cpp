@@ -1,7 +1,8 @@
 #include <QCoreApplication>
 #include <QCommandLineParser>
 
-#include "database.h"
+#include "scanner.h"
+#include "hashgenerator.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,25 +28,30 @@ int main(int argc, char *argv[])
 
     parser.process(app);
 
-    Database myDB("/home/adam/databases/hashes.db");
+    Scanner scanner(QStringLiteral("/home/adam/databases/hashes.db"));
 
-    QTextStream output(stdout);
+    HashGenerator generator;
 
-    if (myDB.findHash("eed675abe602b0990ee3d4dcc0d72b14")) {
-        output << "eed675abe602b0990ee3d4dcc0d72b14 in db \n";
-        output.flush();
-    } else {
-        output << "eed675abe602b0990ee3d4dcc0d72b14 not in db \n";
-        output.flush();
+    if (parser.isSet(scanOption)) {
+        scanner.scanFile(parser.value(scanOption));
+
+        return 0;
+    } else if (parser.isSet(lookupOption)) {
+        scanner.lookUp(parser.value(lookupOption));
+
+        return 0;
+    } else if (parser.isSet(generateOption)) {
+        generator.generateHashes(parser.value(generateOption));
+        generator.printHashes();
+
+        return 0;
+    } else if (parser.isSet(folderOption)) {
+        scanner.scanFolder(parser.value(folderOption));
+
+        return 0;
     }
 
-    if (myDB.findHash("eed675abe602b0990ee3d4dcc0d72b18")) {
-        output << "eed675abe602b0990ee3d4dcc0d72b18 in db \n";
-        output.flush();
-    } else {
-        output << "eed675abe602b0990ee3d4dcc0d72b18 not in db \n";
-        output.flush();
-    }
+    parser.showHelp();
 
     return app.exec();
 }
