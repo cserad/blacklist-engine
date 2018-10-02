@@ -12,28 +12,16 @@ void HashGenerator::generateHashes(const QString &filePath)
     QFile file(filePath);
     QFileInfo info(file);
 
-    if (info.isFile()) {
-        if (!file.open(QFile::ReadOnly)) {
-            qDebug() << QStringLiteral("Couldn't open file.");
-        }
-
+    if (info.isFile() && file.open(QFile::ReadOnly)) {
         QByteArray data = file.readAll();
 
         file.close();
 
-        QCryptographicHash hashMd5(QCryptographicHash::Algorithm::Md5);
-        QCryptographicHash hashSha1(QCryptographicHash::Algorithm::Sha1);
-        QCryptographicHash hashSha256(QCryptographicHash::Algorithm::Sha256);
-
-        hashMd5.addData(data);
-        hashSha1.addData(data);
-        hashSha256.addData(data);
-
         hashes.clear();
 
-        hashes.append(hashMd5.result().toHex());
-        hashes.append(hashSha1.result().toHex());
-        hashes.append(hashSha256.result().toHex());
+        hashes.append(QCryptographicHash::hash(data, QCryptographicHash::Algorithm::Md5).toHex());
+        hashes.append(QCryptographicHash::hash(data, QCryptographicHash::Algorithm::Sha1).toHex());
+        hashes.append(QCryptographicHash::hash(data, QCryptographicHash::Algorithm::Sha256).toHex());
     }
 }
 

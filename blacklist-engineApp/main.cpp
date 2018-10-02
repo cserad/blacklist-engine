@@ -52,6 +52,4 @@ int main(int argc, char *argv[])
     }
 
     parser.showHelp();
-
-    return app.exec();
 }
