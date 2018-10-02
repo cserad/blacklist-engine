@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 
     parser.process(app);
 
-    Scanner scanner(QStringLiteral("/home/adam/databases/hashes.db"));
+    Scanner scanner;
 
     HashGenerator generator;
 

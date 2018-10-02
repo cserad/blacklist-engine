@@ -7,7 +7,8 @@ class Database
 {
 public:
     Database();
-    void initDatabase(const QString &path);
+    Database(const QString &path);
+    void initDatabase();
     bool findHash(const QString &hash);
 
 private:

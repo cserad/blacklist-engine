@@ -5,9 +5,9 @@
 
 #include "hashgenerator.h"
 
-Scanner::Scanner(const QString &dbPath)
+Scanner::Scanner()
 {
-    hashDatabase.initDatabase(dbPath);
+    hashDatabase = Database("/home/adam/databases/hashes.db");
 }
 
 void Scanner::lookUp(const QString &hash)
