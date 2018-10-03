@@ -5,7 +5,7 @@
 class HashGenerator
 {
 public:
-    void generateHashes(const QString &filePath);
+    bool generateHashes(const QString &filePath);
     void printHashes();
     QStringList getHashes();
 

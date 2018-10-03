@@ -7,7 +7,7 @@
 
 Scanner::Scanner()
 {
-    hashDatabase = Database("/home/adam/databases/hashes.db");
+    hashDatabase = Database("/home/adam/databases/blacklist.db");
 }
 
 void Scanner::lookUp(const QString &hash)
@@ -17,22 +17,18 @@ void Scanner::lookUp(const QString &hash)
 
 void Scanner::scanFile(const QString &filePath)
 {
-    bool blocked = false;
     HashGenerator generator;
 
-    generator.generateHashes(filePath);
+    if (generator.generateHashes(filePath)) {
 
-    QStringList hashes = generator.getHashes();
+        QStringList hashes = generator.getHashes();
 
-    auto it = hashes.begin();
-
-    while (!blocked && it!=hashes.end()) {
-        blocked = hashDatabase.findHash(*it);
-        it++;
+        printResult(hashDatabase.findHash(hashes), hashes.first());
+    } else {
+        QTextStream output(stdout);
+        output << QStringLiteral("Cant open file (maybe it is a folder)\n");
+        output.flush();
     }
-    it--;
-
-    printResult(blocked, *it);
 }
 
 void Scanner::scanFolder(const QString &folderPath)
@@ -49,7 +45,14 @@ void Scanner::printResult(bool blocked, const QString &hash)
     QTextStream output(stdout);
 
     if (blocked) {
-        output << QStringLiteral("Result: Blocked   Files hash: ") << hash << QStringLiteral("\n");
+        output << QStringLiteral("Result: Blocked");
+
+        if (!hash.isEmpty()) {
+            output << QStringLiteral("  Files hash: ") << hash;
+        }
+
+        output << QStringLiteral("\n");
+
         output.flush();
     } else {
         output << QStringLiteral("Result: No threat detected\n");
