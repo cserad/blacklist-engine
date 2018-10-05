@@ -24,6 +24,12 @@ void Scanner::scanFile(const QString &filePath)
         QVariantMap hashes = generator.getHashes();
 
         printResult(hashDatabase.findHash(hashes), hashes.values().first().toString());
+
+
+        for (const QString &key : hashes.keys()) {
+            hashDatabase.addRecord(hashes.value(key).toString());
+        }
+
     } else {
         QTextStream output(stdout);
         output << QStringLiteral("Cant open file (maybe it is a folder)\n");

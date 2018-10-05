@@ -73,8 +73,6 @@ void Database::initDatabase()
             createTable(QStringLiteral("Blocked"));
             table = QStringLiteral("Blocked");
 
-            addRecord("asd");
-
             return;
         } else {
             table = tables.first();
