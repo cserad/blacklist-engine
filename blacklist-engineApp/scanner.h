@@ -7,7 +7,7 @@
 class Scanner
 {
 public:
-    Scanner(const QString &dbPath);
+    Scanner();
     void lookUp(const QString &hash);
     void scanFile(const QString &filePath);
     void scanFolder(const QString &folderPath);

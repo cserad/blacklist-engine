@@ -7,9 +7,15 @@ class Database
 {
 public:
     Database();
-    void initDatabase(const QString &path);
+    Database(const QString &path);
+
+    void initDatabase();
     bool findHash(const QString &hash);
+    bool findHash(const QStringList &hashes);
+    void createTable(const QString &tableName);
+    void addRecord(const QString &record);
 
 private:
     QSqlDatabase db;
+    QString table;
 };

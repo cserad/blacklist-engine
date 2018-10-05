@@ -7,7 +7,7 @@
 #include <QCryptographicHash>
 
 
-void HashGenerator::generateHashes(const QString &filePath)
+bool HashGenerator::generateHashes(const QString &filePath)
 {
     QFile file(filePath);
     QFileInfo info(file);
@@ -22,6 +22,10 @@ void HashGenerator::generateHashes(const QString &filePath)
         hashes.append(QCryptographicHash::hash(data, QCryptographicHash::Algorithm::Md5).toHex());
         hashes.append(QCryptographicHash::hash(data, QCryptographicHash::Algorithm::Sha1).toHex());
         hashes.append(QCryptographicHash::hash(data, QCryptographicHash::Algorithm::Sha256).toHex());
+
+        return true;
+    } else {
+        return false;
     }
 }
 
