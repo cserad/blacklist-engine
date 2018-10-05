@@ -1,7 +1,5 @@
 #include "database.h"
 
-#include <QStringList>
-
 Database::Database()
 {
 }
@@ -27,18 +25,18 @@ bool Database::findHash(const QString &hash)
     return query.first();
 }
 
-bool Database::findHash(const QStringList &hashes)
+bool Database::findHash(const QVariantMap &hashes)
 {
     QSqlQuery query(db);
 
     query.prepare("SELECT hash FROM " + table +
                   " WHERE hash = (:hashmda5)"
-                    "OR hash = (:hashsha1)"
-                    "OR hash = (:hashsha256)");
+                  "OR hash = (:hashsha1)"
+                  "OR hash = (:hashsha256)");
 
-    query.bindValue(":hashmd5", hashes[0]);
-    query.bindValue(":hashsha1", hashes[1]);
-    query.bindValue(":hashsha256", hashes[2]);
+    query.bindValue(":hashmd5", hashes.value("MD5").toString());
+    query.bindValue(":hashsha1", hashes.value("SHA1").toString());
+    query.bindValue(":hashsha256", hashes.value("SHA256").toString());
 
     query.exec();
 
@@ -51,7 +49,7 @@ void Database::createTable(const QString &tableName)
 
 
     query.prepare("CREATE TABLE IF NOT EXISTS" + tableName + " ("
-                  "hash text PRIMARY KEY)");
+                                                             "hash text PRIMARY KEY)");
 
     query.exec();
 }

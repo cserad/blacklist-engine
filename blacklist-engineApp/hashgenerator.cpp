@@ -3,7 +3,6 @@
 #include <QTextStream>
 #include <QFile>
 #include <QFileInfo>
-#include <QDebug>
 #include <QCryptographicHash>
 
 
@@ -19,9 +18,9 @@ bool HashGenerator::generateHashes(const QString &filePath)
 
         hashes.clear();
 
-        hashes.append(QCryptographicHash::hash(data, QCryptographicHash::Algorithm::Md5).toHex());
-        hashes.append(QCryptographicHash::hash(data, QCryptographicHash::Algorithm::Sha1).toHex());
-        hashes.append(QCryptographicHash::hash(data, QCryptographicHash::Algorithm::Sha256).toHex());
+        hashes.insert(QStringLiteral("MD5"), QCryptographicHash::hash(data, QCryptographicHash::Algorithm::Md5).toHex());
+        hashes.insert(QStringLiteral("SHA1"), QCryptographicHash::hash(data, QCryptographicHash::Algorithm::Sha1).toHex());
+        hashes.insert(QStringLiteral("SHA256"), QCryptographicHash::hash(data, QCryptographicHash::Algorithm::Sha256).toHex());
 
         return true;
     } else {
@@ -33,14 +32,14 @@ void HashGenerator::printHashes()
 {
     QTextStream output(stdout);
 
-    output << QStringLiteral("MD5: ") << hashes[0] << QStringLiteral("\n");
-    output << QStringLiteral("SHA1: ") << hashes[1] << QStringLiteral("\n");
-    output << QStringLiteral("SHA256: ") << hashes[2] << QStringLiteral("\n");
+    for (auto it : hashes.keys()) {
+        output << it << QStringLiteral(": ") << hashes.value(it).toString() << QStringLiteral("\n");
+    }
 
     output.flush();
 }
 
-QStringList HashGenerator::getHashes()
+QVariantMap HashGenerator::getHashes()
 {
     return hashes;
 }

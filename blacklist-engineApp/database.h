@@ -11,7 +11,7 @@ public:
 
     void initDatabase();
     bool findHash(const QString &hash);
-    bool findHash(const QStringList &hashes);
+    bool findHash(const QVariantMap &hashes);
     void createTable(const QString &tableName);
     void addRecord(const QString &record);
 
