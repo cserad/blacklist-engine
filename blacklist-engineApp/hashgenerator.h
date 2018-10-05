@@ -1,14 +1,14 @@
 #pragma once
 
-#include <QStringList>
+#include <QVariantMap>
 
 class HashGenerator
 {
 public:
     bool generateHashes(const QString &filePath);
     void printHashes();
-    QStringList getHashes();
+    QVariantMap getHashes();
 
 private:
-    QStringList hashes;
+    QVariantMap hashes;
 };
